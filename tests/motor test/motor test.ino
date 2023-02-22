@@ -29,10 +29,8 @@ void setup() {
 }
 
 void loop() {
-
   Serial.println("Motor should spin forward for 5 seconds...");
   myMotor->run(FORWARD);
-  myMotor->setSpeed(150);
   delay(5000);
 
   Serial.println("Motor should now spin in the opposite direction for 5 seconds...");

@@ -14,6 +14,11 @@ int turnDetectorRight = 4;
 // other constants
 int runSpeed = 150;
 int lineFollowerValues[4];
+int leftTurnValue = 0;
+int leftLineValue = 0;
+int rightLineValue = 0;
+int rightTurnValue = 0;
+
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -48,6 +53,18 @@ void turnRight() {
   leftMotor->run(FORWARD);
   rightMotor->run(RELEASE);
 }
+void getLineFollowerValues() {
+  leftLineValue = digitalRead(lineFollowerLeft);
+  rightLineValue = digitalRead(lineFollowerRight);
+  leftTurnValue = digitalRead(turnDetectorLeft);
+  rightTurnValue = digitalRead(turnDetectorRight);
+}
+void setLineFollowerValueArray () {
+  lineFollowerValues[0] = leftTurnValue;
+  lineFollowerValues[1] = leftLineValue;
+  lineFollowerValues[2] = rightLineValue;
+  lineFollowerValues[3] = rightTurnValue;
+}
 
 
 void setup() {
@@ -68,14 +85,9 @@ void setup() {
 void loop() {
   releaseMotors();
 
-  int leftLineValue = digitalRead(lineFollowerLeft);
-  int rightLineValue = digitalRead(lineFollowerRight);
-  int leftTurnValue = digitalRead(turnDetectorLeft);
-  int rightTurnValue = digitalRead(turnDetectorRight);
-  lineFollowerValues[0] = leftTurnValue;
-  lineFollowerValues[1] = leftLineValue;
-  lineFollowerValues[2] = rightLineValue;
-  lineFollowerValues[3] = rightTurnValue;
+  getLineFollowerValues();
+  setLineFollowerValueArray();
+  // print line follower values
   for (int i = 0; i < 4; i++) {
     Serial.print(lineFollowerValues[i]);
   }

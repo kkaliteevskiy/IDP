@@ -83,15 +83,20 @@ void setup() {
 }
 
 void loop() {
-  releaseMotors();
-
   getLineFollowerValues();
   setLineFollowerValueArray();
-  // print line follower values
-  for (int i = 0; i < 4; i++) {
-    Serial.print(lineFollowerValues[i]);
-  }
-  Serial.println("");
 
-  delay(200);
+  if (leftLineValue == 1 && rightLineValue == 1) {
+    driveForward();
+  }
+  else if (leftLineValue == 1 && rightLineValue == 0) {
+    turnLeft();
+  }
+  else if (leftLineValue == 0 && rightLineValue == 1) {
+    turnRight();
+  }
+  else if (leftLineValue == 0 && rightLineValue == 0) {
+    releaseMotors();
+  }
+  delay(400);
 }

@@ -7,37 +7,56 @@ Test sketch for the Motor Shield (Adafruit assembled Motor Shield for Arduino v2
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+// Select motors using relevant ports M1, M2, M3 or M4.
+Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
+Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
-// Select which 'port' M1, M2, M3 or M4.
-Adafruit_DCMotor *myMotor = AFMS.getMotor(3);
-
-void setup() {
-  Serial.begin(9600);           // set up Serial library at 9600 bps
+void lookForMotorShield() {
   Serial.println("Looking for Motor Shield");
 
-  if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
-    Serial.println("Could not find Motor Shield. Check wiring.");
+  if (!AFMS.begin()) { // create with the default frequency 1.6KHz
+    Serial.println("Warning: Could not find Motor Shield. Check wiring.");
     while (1);
   }
   Serial.println("Motor Shield found. Starting test.");
+}
+void setMotorSpeeds(int speed) {
+  leftMotor->setSpeed(speed);
+  rightMotor->setSpeed(speed);
+}
+void releaseMotors() {
+  leftMotor->run(RELEASE);
+  rightMotor->run(RELEASE);
+}
+void driveForward() {
+  leftMotor->run(FORWARD);
+  rightMotor->run(FORWARD);
+}
+void driveBackward() {
+  leftMotor->run(BACKWARD);
+  rightMotor->run(BACKWARD);
+}
+
+void setup() {
+  Serial.begin(9600); // set up Serial library at 9600 bps
+
+  lookForMotorShield();
 
   // Set the speed to start, from 0 (off) to 255 (max speed)
-  myMotor->setSpeed(150);
-  myMotor->run(FORWARD);
-  // turn on motor
-  myMotor->run(RELEASE);
+  setMotorSpeeds(150);
+  releaseMotors();
 }
 
 void loop() {
-  Serial.println("Motor should spin forward for 5 seconds...");
-  myMotor->run(FORWARD);
+  Serial.println("Motors should spin forward for 5 seconds...");
+  driveForward();
   delay(5000);
 
-  Serial.println("Motor should now spin in the opposite direction for 5 seconds...");
-  myMotor->run(BACKWARD);
+  Serial.println("Motors should now spin in the opposite direction for 5 seconds...");
+  driveBackward();
   delay(5000);
 
-  Serial.println("Releasing motor for 2 seconds...");
-  myMotor->run(RELEASE);
+  Serial.println("Releasing motors for 2 seconds...");
+  releaseMotors();
   delay(2000);
 }

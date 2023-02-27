@@ -24,7 +24,7 @@ float getTenPointMovingAverage() {
 float averageOfTenValues(int array[10]) {
   float result = 0.0;
   for(int i=0; i < 10; i++) {
-    result += distanceSensorReadings[i];
+    result += array[i];
   }
   result = result / 10;
   return result;

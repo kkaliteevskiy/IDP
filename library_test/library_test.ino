@@ -13,6 +13,14 @@ void setup() {
   pinMode(LINE_FOLLOWER_RIGHT, INPUT);
   pinMode(TURN_DETECTOR_LEFT, INPUT);
   pinMode(TURN_DETECTOR_RIGHT, INPUT);
+  
+  // set other inputs/outputs
+  setUltrasonicSensorPinout();
+  pinMode(AMBER_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
+  pinMode(COLOUR_DETECTOR, INPUT);
+  pinMode(INFRARED_ANALOG_INPUT, INPUT);
 }
 
 void loop() {

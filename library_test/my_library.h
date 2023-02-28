@@ -11,9 +11,15 @@
 #define LINE_FOLLOWER_RIGHT 2
 #define TURN_DETECTOR_LEFT 3
 #define TURN_DETECTOR_RIGHT 4
-#define COLOUR_DETECTOR 7
+#define YELLOW_LED 5
+#define GREEN_LED 6
+#define RED_LED 7
+#define COLOUR_DETECTOR 8
+#define SERVO_LEFT 9
+#define SERVO_RIGHT 10
 #define ULTRASONIC_TRIGGER 11
 #define ULTRASONIC_ECHO 12
+#define INFRARED_ANALOG_INPUT A0
 
 // some constants - intitialised in *.cpp file
 extern int runSpeed;

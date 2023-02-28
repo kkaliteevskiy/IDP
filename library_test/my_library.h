@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
+#include <Servo.h>
 
 // set working pinout - pin locations for inputs/outputs
 #define LINE_FOLLOWER_LEFT 1
@@ -28,7 +29,7 @@ extern int leftLineValue;
 extern int rightLineValue;
 extern int rightTurnValue;
 
-// Function Prototypes
+// Function Prototypes for motors
 void lookForMotorShield();
 void setMotorSpeeds(int speed);
 void releaseMotors();
@@ -39,13 +40,21 @@ void getLineFollowerValues();
 void setLineFollowerValueArray();
 void followLine();
 
+
+//colour detection functions
 void getColourDetectorValue();
 bool colourIsBlue();
 
+//ultrasonic sensor functions
 void setUltrasonicSensorPinout();
 void triggerUltrasonicPulse();
 float getUltrasonicDistanceReading();
 float getAverageDistanceReading();
 bool durationIsLessThan5000();
+
+
+//servo functions
+void set_servos();
+void writeServos(int angle);
 
 #endif

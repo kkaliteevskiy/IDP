@@ -11,6 +11,9 @@
 #define LINE_FOLLOWER_RIGHT 2
 #define TURN_DETECTOR_LEFT 3
 #define TURN_DETECTOR_RIGHT 4
+#define COLOUR_DETECTOR 7
+#define ULTRASONIC_TRIGGER 11
+#define ULTRASONIC_ECHO 12
 
 // some constants - intitialised in *.cpp file
 extern int runSpeed;
@@ -29,5 +32,14 @@ void turnRight();
 void getLineFollowerValues();
 void setLineFollowerValueArray();
 void followLine();
+
+void getColourDetectorValue();
+bool colourIsBlue();
+
+void setUltrasonicSensorPinout();
+void triggerUltrasonicPulse();
+float getUltrasonicDistanceReading();
+float getAverageDistanceReading();
+bool durationIsLessThan5000();
 
 #endif

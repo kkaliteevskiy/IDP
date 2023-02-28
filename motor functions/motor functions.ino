@@ -98,5 +98,5 @@ void loop() {
   else if (leftLineValue == 0 && rightLineValue == 0) {
     releaseMotors();
   }
-  delay(400);
+  delay(20);
 }

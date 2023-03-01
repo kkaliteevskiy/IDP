@@ -21,6 +21,7 @@
 #define ULTRASONIC_TRIGGER 11
 #define ULTRASONIC_ECHO 12
 #define INFRARED_ANALOG_INPUT A0
+
 #define SOUND_SPEED 0.0343
 
 // some constants - intitialised in *.cpp file
@@ -50,10 +51,11 @@ void indicateCorrectDropOffPoint();
 void cycle_amber_led();
 //ultrasonic sensor
 void setUltrasonicSensorPinout();
-void triggerUltrasonicPulse();
-float getUltrasonicDistanceReading();
+float takeUltrasonicDistanceReadingAndGetAverage();
 float getAverageDistanceReading();
-bool durationIsLessThan5000();
+void getUltrasonicDistanceReading();
+void triggerUltrasonicPulse();
+void addDistanceToListAndIncrementPosition(float);
 //infrared sensor
 void initInfraredSensor();
 float getInfraredAnalogReading();

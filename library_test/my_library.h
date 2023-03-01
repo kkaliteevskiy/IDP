@@ -30,6 +30,14 @@ extern int leftLineValue;
 extern int rightLineValue;
 extern int rightTurnValue;
 
+//enumerate robot staes
+enum Maneuver {NA, START_SEQUENCE, L_TURN, R_TURN};
+extern Maneuver maneuver;
+enum BlockCollectionState {ALIGN_BLOCK, COLOR_SENSING, GRABBING_BLOCK, ERROR, DISENGAGED};
+extern BlockCollectionState blockCollectionState;
+enum MotorState {MOVING, NOT_MOVING};
+extern MotorState motorState;
+
 // Function Prototypes
 //motors and line following
 void lookForMotorShield();

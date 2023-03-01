@@ -1,12 +1,26 @@
 #include "my_library.h"
 
-int getInfraredAnalogReading() {
-  // analog read of infrared sensor value (measures distance)
+int analog_reading[25];
+int threshold_analog_reading = 200;
+
+void initInfraredSensor(){
+  pinMode(INFRARED_ANALOG_INPUT, INPUT);
 }
-float getTenPointMovingAverage() {
-  // get a ten point moving average of the sensor readings in order to smooth the readings and reduce effect of any sharp spikes/erroneous readings
+
+float getInfraredAnalogReading() {//function return the 25 point average analog reading of the IR sesnor
+  for(int i = 0; i < 25; i++){//take readings
+      analog_reading[i] = analogRead(INFRARED_ANALOG_INPUT);
+  }
+
+  float mean = 0.0;//calculate mean
+  for(int i  = 0; i < 25; i++){
+    mean += analog_reading[i];
+  }
+  mean = mean/25;
+
+  return mean;
 }
-float averageOfTenValues(int array[10]) {
-  // calculate the average of an array containing ten values
-  // will be called in the getTenPointMovingAverage() function in order to calculate the average sensor reading
+
+bool isBlockPresent(){
+  return (getInfraredAnalogReading() > threshold_analog_reading);
 }

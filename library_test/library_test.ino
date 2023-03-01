@@ -20,10 +20,10 @@ void setup() {
   pinMode(GREEN_LED, OUTPUT);
   pinMode(RED_LED, OUTPUT);
   pinMode(COLOUR_DETECTOR, INPUT);
-  pinMode(INFRARED_ANALOG_INPUT, INPUT);
+  //pinMode(INFRARED_ANALOG_INPUT, INPUT);
+  initInfraredSensor();
 }
 
 void loop() {
-  getLineFollowerValues();
-  followLine();
+ Serial.println(isBlockPresent());
 }

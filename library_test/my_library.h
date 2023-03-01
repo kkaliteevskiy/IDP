@@ -21,6 +21,7 @@
 #define ULTRASONIC_TRIGGER 11
 #define ULTRASONIC_ECHO 12
 #define INFRARED_ANALOG_INPUT A0
+#define SOUND_SPEED 0.0343
 
 // some constants - intitialised in *.cpp file
 extern int runSpeed;
@@ -54,9 +55,9 @@ float getUltrasonicDistanceReading();
 float getAverageDistanceReading();
 bool durationIsLessThan5000();
 //infrared sensor
-int getInfraredAnalogReading();
-float getTenPointMovingAverage();
-float averageOfTenValues(int array[10]);
+void initInfraredSensor();
+float getInfraredAnalogReading();
+bool isBlockPresent();
 //servo
 void set_servos();
 void writeServos(int angle);

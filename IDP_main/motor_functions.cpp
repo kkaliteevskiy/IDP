@@ -1,4 +1,4 @@
-#include "my_library.h"
+#include "IDP_header.h"
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();

@@ -1,5 +1,5 @@
-#ifndef MY_LIBRARY_H
-#define MY_LIBRARY_H
+#ifndef IDP_HEADER_H
+#define IDP_HEADER_H
 
 #include <Arduino.h> 
 #include <Wire.h>

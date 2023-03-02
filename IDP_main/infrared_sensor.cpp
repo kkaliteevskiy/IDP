@@ -1,4 +1,4 @@
-#include "my_library.h"
+#include "IDP_header.h"
 
 int analog_reading[25];
 int threshold_analog_reading = 200;

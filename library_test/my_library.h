@@ -32,7 +32,7 @@ extern int rightLineValue;
 extern int rightTurnValue;
 
 //enumerate robot staes
-enum Maneuver {NA, START_SEQUENCE, L_TURN, R_TURN};
+enum Maneuver {NA, START_SEQUENCE, L_TURN, R_TURN, LINE_FOLLOWING};
 extern Maneuver maneuver;
 enum BlockCollectionState {ALIGN_BLOCK, COLOR_SENSING, GRABBING_BLOCK, ERROR, DISENGAGED};
 extern BlockCollectionState blockCollectionState;

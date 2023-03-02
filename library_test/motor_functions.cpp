@@ -61,3 +61,15 @@ void followLine() {
     releaseMotors();
   }
 }
+
+void turnRight(int angle){
+
+}
+
+void turnLeft(int angle){
+
+}
+
+void errorRecoverySequence(){
+  
+}

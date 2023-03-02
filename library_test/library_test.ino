@@ -1,7 +1,8 @@
 #include "my_library.h"
 
 // initialise enums
-Maneuver maneuver = START_SEQUENCE;
+OverallState overallState = START_SEQUENCE;
+DrivingState drivingState = NOT_MOVING;
 BlockCollectionState blockCollectionState = DISENGAGED;
 BlockColour blockColour = UNKNOWN;
 

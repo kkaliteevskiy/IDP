@@ -31,14 +31,15 @@ extern int leftLineValue;
 extern int rightLineValue;
 extern int rightTurnValue;
 
-//enumerate robot staes
+//enumerate robot states
 enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT};
 extern OverallState overallState;
-enum DrivingState { FORWARDS, RIGHT_TURN, LEFT_TURN, BACKWARDS, NOT_MOVING};
+enum DrivingState {MOVING_FORWARD, TURNING_RIGHT, TURNING_LEFT, MOVING_BACKWARD, NOT_MOVING};
 extern DrivingState drivingState;
 enum BlockCollectionState {ALIGN_BLOCK, COLOUR_SENSING, GRABBING_BLOCK, DISENGAGED};
 extern BlockCollectionState blockCollectionState;
-
+enum BlockColour {BROWN, BLUE, UNKNOWN};
+extern BlockColour blockColour;
 
 // Function Prototypes
 //motors and line following
@@ -52,10 +53,11 @@ void turnRight();
 void getLineFollowerValues();
 void setLineFollowerValueArray();
 void followLine();
+void startSequence();
 //colour detection
 void getColourDetectorValue();
 bool colourIsBlue();
-void lightLED(int);
+void detectColour();
 void indicateColourDetected();
 void indicateCorrectDropOffPoint();
 void cycle_amber_led();

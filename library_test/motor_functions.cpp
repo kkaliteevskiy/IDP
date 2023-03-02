@@ -26,24 +26,39 @@ void setMotorSpeeds(int speed) {
     rightMotor->setSpeed(speed);
 }
 void releaseMotors() {
+  if (drivingState != NOT_MOVING) {
     leftMotor->run(RELEASE);
     rightMotor->run(RELEASE);
+    drivingState = NOT_MOVING;
+  }
 }
 void driveForward() {
+  if (drivingState != MOVING_FORWARD) {
     leftMotor->run(FORWARD);
     rightMotor->run(FORWARD);
+    drivingState = MOVING_FORWARD;
+  }
 }
 void driveBackward() {
+  if (drivingState != MOVING_BACKWARD) {
     leftMotor->run(BACKWARD);
     rightMotor->run(BACKWARD);
+    drivingState = MOVING_BACKWARD;
+  }
 }
 void turnLeft() {
+  if (drivingState != TURNING_LEFT) {
     leftMotor->run(RELEASE);
     rightMotor->run(FORWARD);
+    drivingState = TURNING_LEFT;
+  }
 }
 void turnRight() {
+  if (drivingState != TURNING_RIGHT) {
     leftMotor->run(FORWARD);
     rightMotor->run(RELEASE);
+    drivingState = TURNING_RIGHT;
+  }
 }
 void getLineFollowerValues() {
     leftLineValue = digitalRead(LINE_FOLLOWER_LEFT);
@@ -74,6 +89,25 @@ void turnLeft(int angle){
 
 }
 
-void errorRecoverySequence(){
+void errorRecoverySequence() {
 
+}
+
+void startSequence() {
+  do {
+    driveForward();
+    getLineFollowerValues();
+  } while (leftLineValue == 0 && rightLineValue == 0);
+  // now the robot has reached its first white line
+  do {
+    // driveForward() doesn't need to be called again
+    getLineFollowerValues();
+  } while (leftLineValue == 1 || rightLineValue == 1);
+  // now the robot has entirely crossed the first line
+  do {
+    // driveForward() doesn't need to be called again
+    getLineFollowerValues();
+  } while (rightLineValue == 0);
+  // now the robot has reached the second white line - time to start line following
+  // only checking for rightLineValue == 0 so that line following does not try a left turn when left sensor hits line first
 }

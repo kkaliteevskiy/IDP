@@ -32,12 +32,13 @@ extern int rightLineValue;
 extern int rightTurnValue;
 
 //enumerate robot staes
-enum Maneuver {NA, START_SEQUENCE, L_TURN, R_TURN, LINE_FOLLOWING};
-extern Maneuver maneuver;
-enum BlockCollectionState {ALIGN_BLOCK, COLOR_SENSING, GRABBING_BLOCK, ERROR, DISENGAGED};
+enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT};
+extern OverallState overallState;
+enum DrivingState { FORWARDS, RIGHT_TURN, LEFT_TURN, BACKWARDS, NOT_MOVING};
+extern DrivingState drivingState;
+enum BlockCollectionState {ALIGN_BLOCK, COLOUR_SENSING, GRABBING_BLOCK, DISENGAGED};
 extern BlockCollectionState blockCollectionState;
-enum MotorState {MOVING, NOT_MOVING};
-extern MotorState motorState;
+
 
 // Function Prototypes
 //motors and line following
@@ -45,6 +46,7 @@ void lookForMotorShield();
 void setMotorSpeeds(int speed);
 void releaseMotors();
 void driveForward();
+void driveBackward();
 void turnLeft();
 void turnRight();
 void getLineFollowerValues();
@@ -69,7 +71,9 @@ void initInfraredSensor();
 float getInfraredAnalogReading();
 bool isBlockPresent();
 //servo
-void set_servos();
+void setServos();
+void captureBlock();
+void releaseBlock();
 void writeServos(int angle);
 
 #endif

@@ -2,10 +2,10 @@
 
 Servo Servo_L;
 Servo Servo_R;
-int start_angle = 0;
-int close_angle = 60;//corresponds to 90 degrees irl
+int start_angle = 180;
+int close_angle = 120;//corresponds to 90 degrees irl
 
-void set_servos(){
+void setServos(){
   Servo_L.attach(SERVO_LEFT);
   Servo_R.attach(SERVO_RIGHT);
   Servo_L.write(start_angle);
@@ -22,7 +22,7 @@ void captureBlock(){
   Servo_R.write(179 - close_angle);
 }
 
-void captureBlock(){
+void releaseBlock(){
   Servo_L.write(start_angle);
   Servo_R.write(179 - start_angle);
 }

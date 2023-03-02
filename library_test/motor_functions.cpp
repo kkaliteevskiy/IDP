@@ -7,7 +7,7 @@ Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
 // some constants
-int runSpeed = 70;
+int runSpeed = 255;
 int leftTurnValue = 0;
 int leftLineValue = 0;
 int rightLineValue = 0;
@@ -32,6 +32,10 @@ void releaseMotors() {
 void driveForward() {
     leftMotor->run(FORWARD);
     rightMotor->run(FORWARD);
+}
+void driveBackward() {
+    leftMotor->run(BACKWARD);
+    rightMotor->run(BACKWARD);
 }
 void turnLeft() {
     leftMotor->run(RELEASE);
@@ -71,5 +75,5 @@ void turnLeft(int angle){
 }
 
 void errorRecoverySequence(){
-  
+
 }

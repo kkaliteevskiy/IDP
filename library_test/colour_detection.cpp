@@ -9,14 +9,33 @@ void getColourDetectorValue() {
 bool colourIsBlue() {
   return colourDetectorValue == 1;
 }
-void lightLED(int LED) {
-  digitalWrite(LED, HIGH);
+void detectColour() {
+  // this function assumes the block is within sensing range of the robot
+  // keep reading colour detector up to a limited number of times - if no positive output is detected, assume block colour was brown
+  blockColour = BROWN;
+  for (int i = 0; i < 1000; i++) {
+    getColourDetectorValue();
+    if (colourIsBlue()) {
+      blockColour = BLUE;
+      break;
+    }
+    delay(5); // sets overall limit to 5 seconds
+  }  
 }
 void indicateColourDetected() {
   // stop robot from moving - ensure robot is not moving while relevant LED is lit
   // light correct led (green for blue block, red for brown block) - and ONLY light that correct led
   // wait 5 seconds
   // turn off led, resume normal motion
+  int correctLED;
+  if (blockColour == BROWN) {
+    correctLED = RED_LED;
+  }
+  else {correctLED = GREEN_LED;}
+  digitalWrite(correctLED, HIGH);
+  delay(5000);
+  digitalWrite(correctLED, LOW);
+  blockCollectionState = DISENGAGED;
 }
 void indicateCorrectDropOffPoint() {
   // if colour is brown, block should be delivered to the red drop off square

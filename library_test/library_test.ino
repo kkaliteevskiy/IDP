@@ -1,5 +1,10 @@
 #include "my_library.h"
 
+// initialise enums
+Maneuver maneuver = START_SEQUENCE;
+BlockCollectionState blockCollectionState = DISENGAGED;
+BlockColour blockColour = UNKNOWN;
+
 void setup() {
   Serial.begin(9600); // set up Serial library
 
@@ -22,8 +27,25 @@ void setup() {
   pinMode(COLOUR_DETECTOR, INPUT);
   //pinMode(INFRARED_ANALOG_INPUT, INPUT);
   initInfraredSensor();
+
+  digitalWrite(AMBER_LED, HIGH);
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(RED_LED, LOW);
+  blockCollectionState = COLOUR_SENSING;
 }
 
 void loop() {
- Serial.println(isBlockPresent());
+  /*if (maneuver == START_SEQUENCE) {
+    startSequence();
+    maneuver = NA; // set next maneuver to right turn after starting sequence has completed
+  }
+  else if (maneuver == NA) {
+    followLine();
+  }*/
+
+  Serial.println("start");
+  if (blockCollectionState == COLOUR_SENSING) {
+    detectColour();
+    indicateColourDetected();
+  }
 }

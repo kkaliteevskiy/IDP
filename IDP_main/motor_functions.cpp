@@ -12,6 +12,8 @@ int leftTurnValue = 0;
 int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
+int stepDelay = 500;
+int rotationDelay = 3000;
 
 void lookForMotorShield() {
     if (!AFMS.begin()) {
@@ -60,6 +62,21 @@ void turnRight() {
     drivingState = TURNING_RIGHT;
   }
 }
+
+void turnLeftReversing() {
+  if (drivingState != TURNING_LEFT) {
+    leftMotor->run(BACKWARD);
+    rightMotor->run(RELEASE);
+  }
+}
+
+void turnRightReversing() {
+  if (drivingState != TURNING_RIGHT) {
+    leftMotor->run(RELEASE);
+    rightMotor->run(BACKWARD);
+  }
+}
+
 void getLineFollowerValues() {
     leftLineValue = digitalRead(LINE_FOLLOWER_LEFT);
     rightLineValue = digitalRead(LINE_FOLLOWER_RIGHT);
@@ -67,8 +84,10 @@ void getLineFollowerValues() {
     rightTurnValue = digitalRead(TURN_DETECTOR_RIGHT);
 }
 void followLine() {
+  overallState = LINE_FOLLOWING;
   if (leftLineValue == 1 && rightLineValue == 1) {
     driveForward();
+
   }
   else if (leftLineValue == 1 && rightLineValue == 0) {
     turnLeft();
@@ -79,21 +98,19 @@ void followLine() {
   else if (leftLineValue == 0 && rightLineValue == 0) {
     releaseMotors();
   }
+  //perhaps we need to add a delay for the time being
 }
 
-void turnRight(int angle){
 
-}
-
-void turnLeft(int angle){
-
-}
 
 void errorRecoverySequence() {
 
 }
 
 void startSequence() {
+
+  //perhaps it needs to simply drive forwards for a second or two to get out of the start base
+  overallState = START_SEQUENCE;
   do {
     driveForward();
     getLineFollowerValues();
@@ -110,4 +127,46 @@ void startSequence() {
   } while (rightLineValue == 0);
   // now the robot has reached the second white line - time to start line following
   // only checking for rightLineValue == 0 so that line following does not try a left turn when left sensor hits line first
+}
+
+
+void collectBlockSequence(){
+  //hardcoded function to collect the block
+  overallState = BLOCK_COLLECTION;
+
+  //move forward to the position where the robot will turn
+  setMotorSpeeds(255); //decrease motor speed for greater control
+  
+  driveForward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //rotate 90 degrees
+  turnLeftReversing();
+  delay(rotationDelay);
+  releaseMotors();
+  delay(stepDelay);
+
+  //move forward towards the block
+  driveForward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //clsoe the capture mechanism
+  releaseMotors();
+  delay(1000);
+
+  //reverse back to the line
+  driveBackward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //rotate 90 degrees
+  turnRight();
+  delay(rotationDelay);
+  releaseMotors();
+  delay(stepDelay);
 }

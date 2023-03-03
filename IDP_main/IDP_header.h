@@ -54,6 +54,7 @@ void getLineFollowerValues();
 void setLineFollowerValueArray();
 void followLine();
 void startSequence();
+void collectBlockSequence();
 //colour detection
 void getColourDetectorValue();
 bool colourIsBlue();

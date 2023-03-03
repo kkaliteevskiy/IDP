@@ -9,8 +9,8 @@ BlockColour blockColour = UNKNOWN;
 void setup() {
   Serial.begin(9600); // set up Serial library
 
+  //setup Motors
   lookForMotorShield();
-
   setMotorSpeeds(runSpeed);
   releaseMotors();
   
@@ -32,21 +32,33 @@ void setup() {
   digitalWrite(AMBER_LED, HIGH);
   digitalWrite(GREEN_LED, LOW);
   digitalWrite(RED_LED, LOW);
-  blockCollectionState = COLOUR_SENSING;
+  blockCollectionState = DISENGAGED;
 }
 
 void loop() {
-  /*if (maneuver == START_SEQUENCE) {
-    startSequence();
-    maneuver = NA; // set next maneuver to right turn after starting sequence has completed
+  if(overallState == START_SEQUENCE) {
+    //startSequence();
   }
-  else if (maneuver == NA) {
-    followLine();
-  }*/
+  //follow line until block is detected
+  // while(!isBlockPresent()) {
+  //   followLine();
+  // }
 
-  Serial.println("start");
-  if (blockCollectionState == COLOUR_SENSING) {
-    detectColour();
-    indicateColourDetected();
-  }
+  //hardcode the robot to align with the block and TRY to return to the line 
+  collectBlockSequence();
+
+  //try to find the line if it is not aligned
+
+  //continue line following
+
+  //release block
+
+  //placeholder to stop the robot from moving
+  while(true){
+    ;;
+  } 
+
+
+
+
 }

@@ -11,6 +11,8 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
+int i = 0;
+
 void lookForMotorShield() {
   Serial.println("Looking for Motor Shield");
 
@@ -37,26 +39,72 @@ void driveBackward() {
   rightMotor->run(BACKWARD);
 }
 
+void turnLeft() {
+  leftMotor->run(RELEASE);
+  rightMotor->run(FORWARD);
+  
+}
+void turnRight() {
+  leftMotor->run(FORWARD);
+  rightMotor->run(RELEASE);
+}
+
+void turnLeftReversing() {
+  leftMotor->run(BACKWARD);
+  rightMotor->run(RELEASE);
+}
+
+void turnRightReversing() {
+  leftMotor->run(RELEASE);
+  rightMotor->run(BACKWARD);
+}
+
 void setup() {
   Serial.begin(9600); // set up Serial library at 9600 bps
 
   lookForMotorShield();
 
   // Set the speed to start, from 0 (off) to 255 (max speed)
-  setMotorSpeeds(150);
+  setMotorSpeeds(255);
   releaseMotors();
 }
 
 void loop() {
-  Serial.println("Motors should spin forward for 5 seconds...");
-  driveForward();
-  delay(5000);
+  if(i == 0){
+    driveForward();
+    delay(400);
+    releaseMotors();
+    delay(300);
 
-  Serial.println("Motors should now spin in the opposite direction for 5 seconds...");
-  driveBackward();
-  delay(5000);
+    turnLeftReversing();
+    delay(2900);
+    releaseMotors();
+    delay(300);
+    
+    driveForward();
+    delay(200);
+    releaseMotors();
+    delay(300);
 
-  Serial.println("Releasing motors for 2 seconds...");
-  releaseMotors();
-  delay(2000);
+    releaseMotors();
+    delay(2000);
+
+    driveBackward();
+    delay(400);
+    releaseMotors();
+    delay(300);
+
+    turnRight();
+    delay(2900);
+    releaseMotors();
+    delay(300);
+
+    driveForward();
+    delay(2000);
+    releaseMotors();
+    delay(300);
+
+    releaseMotors();
+  }
+  i = 1;
 }

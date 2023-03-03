@@ -62,21 +62,27 @@ void turnRight() {
     drivingState = TURNING_RIGHT;
   }
 }
-
 void turnLeftReversing() {
-  if (drivingState != TURNING_LEFT) {
+  if (drivingState != TURNING_LEFT_REVERSING) {
     leftMotor->run(BACKWARD);
     rightMotor->run(RELEASE);
+    drivingState = TURNING_LEFT_REVERSING;
   }
 }
-
 void turnRightReversing() {
-  if (drivingState != TURNING_RIGHT) {
+  if (drivingState != TURNING_RIGHT_REVERSING) {
     leftMotor->run(RELEASE);
     rightMotor->run(BACKWARD);
+  drivingState = TURNING_RIGHT_REVERSING;
   }
 }
 
+void setLineFollowerPinout() {
+  pinMode(LINE_FOLLOWER_LEFT, INPUT);
+  pinMode(LINE_FOLLOWER_RIGHT, INPUT);
+  pinMode(TURN_DETECTOR_LEFT, INPUT);
+  pinMode(TURN_DETECTOR_RIGHT, INPUT);
+}
 void getLineFollowerValues() {
     leftLineValue = digitalRead(LINE_FOLLOWER_LEFT);
     rightLineValue = digitalRead(LINE_FOLLOWER_RIGHT);
@@ -84,10 +90,8 @@ void getLineFollowerValues() {
     rightTurnValue = digitalRead(TURN_DETECTOR_RIGHT);
 }
 void followLine() {
-  overallState = LINE_FOLLOWING;
   if (leftLineValue == 1 && rightLineValue == 1) {
     driveForward();
-
   }
   else if (leftLineValue == 1 && rightLineValue == 0) {
     turnLeft();
@@ -96,9 +100,11 @@ void followLine() {
     turnRight();
   }
   else if (leftLineValue == 0 && rightLineValue == 0) {
-    releaseMotors();
+    releaseMotors(); // temporary fix
+    /* need some kind of flag to trigger error recovery. eg:
+    overallState = ERROR
+    errorRecoverySequence();*/
   }
-  //perhaps we need to add a delay for the time being
 }
 
 
@@ -108,9 +114,7 @@ void errorRecoverySequence() {
 }
 
 void startSequence() {
-
   //perhaps it needs to simply drive forwards for a second or two to get out of the start base
-  overallState = START_SEQUENCE;
   do {
     driveForward();
     getLineFollowerValues();
@@ -127,6 +131,9 @@ void startSequence() {
   } while (rightLineValue == 0);
   // now the robot has reached the second white line - time to start line following
   // only checking for rightLineValue == 0 so that line following does not try a left turn when left sensor hits line first
+
+  // start sequence finished, begin line following
+  overallState = LINE_FOLLOWING;
 }
 
 
@@ -134,9 +141,9 @@ void collectBlockSequence(){
   //hardcoded function to collect the block
   overallState = BLOCK_COLLECTION;
 
-  //move forward to the position where the robot will turn
   setMotorSpeeds(255); //decrease motor speed for greater control
   
+  //move forward to the position where the robot will turn
   driveForward();
   delay(400);
   releaseMotors();
@@ -154,7 +161,7 @@ void collectBlockSequence(){
   releaseMotors();
   delay(stepDelay);
 
-  //clsoe the capture mechanism
+  //close the capture mechanism
   releaseMotors();
   delay(1000);
 
@@ -169,4 +176,7 @@ void collectBlockSequence(){
   delay(rotationDelay);
   releaseMotors();
   delay(stepDelay);
+
+  //block collection finished, return to line following
+  overallState = LINE_FOLLOWING;
 }

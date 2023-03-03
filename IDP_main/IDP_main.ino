@@ -14,51 +14,57 @@ void setup() {
   setMotorSpeeds(runSpeed);
   releaseMotors();
   
-  // set line follower inputs
-  pinMode(LINE_FOLLOWER_LEFT, INPUT);
-  pinMode(LINE_FOLLOWER_RIGHT, INPUT);
-  pinMode(TURN_DETECTOR_LEFT, INPUT);
-  pinMode(TURN_DETECTOR_RIGHT, INPUT);
-  
   // set other inputs/outputs
+  setLineFollowerPinout();
   setUltrasonicSensorPinout();
-  pinMode(AMBER_LED, OUTPUT);
-  pinMode(GREEN_LED, OUTPUT);
-  pinMode(RED_LED, OUTPUT);
-  pinMode(COLOUR_DETECTOR, INPUT);
-  //pinMode(INFRARED_ANALOG_INPUT, INPUT);
+  initialiseAllLEDs();
   initInfraredSensor();
-
-  digitalWrite(AMBER_LED, HIGH);
-  digitalWrite(GREEN_LED, LOW);
-  digitalWrite(RED_LED, LOW);
+  
   blockCollectionState = DISENGAGED;
+
+  /*
+  if button is to be used to start the program, logic could be: with void onButtonPress() as below
+  pinMode(PUSH_BUTTON_SWITCH, INPUT);
+  attachInterrupt(digitalPinToInterrupt(PUSH_BUTTON_SWITCH), onButtonPress, HIGH);*/
 }
 
+/*void onButtonPress {
+  overallState = START_SEQUENCE // (have enums inc. overallState set to NULL originally so the program starts only when the button is pressed?)
+}*/
+
 void loop() {
-  if(overallState == START_SEQUENCE) {
-    //startSequence();
+  switch (overallState) {
+    case START_SEQUENCE:
+      //startSequence();
+      Serial.println("start sequence");
+      digitalWrite(AMBER_LED, HIGH);
+      driveForward();
+      delay(1000);
+      overallState = BLOCK_COLLECTION;
+      digitalWrite(AMBER_LED, LOW);
+      break;
+    case IDLE:
+      break;
+    case LINE_FOLLOWING:
+      //followLine();
+      digitalWrite(RED_LED, HIGH);
+      Serial.println("line following");
+      releaseMotors();
+      delay(100);
+      break;
+    case BLOCK_COLLECTION:
+      //hardcode the robot to align with the block and TRY to return to the line 
+      digitalWrite(GREEN_LED, HIGH);
+      Serial.println("block collection");
+      collectBlockSequence();
+      digitalWrite(GREEN_LED, LOW);
+      break;
+    case BLOCK_PLACEMENT:
+      break;
+    case ERROR:
+      break;
+    default:
+      // error?
+      break;
   }
-  //follow line until block is detected
-  // while(!isBlockPresent()) {
-  //   followLine();
-  // }
-
-  //hardcode the robot to align with the block and TRY to return to the line 
-  collectBlockSequence();
-
-  //try to find the line if it is not aligned
-
-  //continue line following
-
-  //release block
-
-  //placeholder to stop the robot from moving
-  while(true){
-    ;;
-  } 
-
-
-
-
 }

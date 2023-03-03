@@ -3,6 +3,14 @@
 // some constants
 int colourDetectorValue = 0;
 
+void initialiseAllLEDs() {
+  pinMode(AMBER_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(RED_LED, OUTPUT);
+  digitalWrite(AMBER_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(RED_LED, LOW);
+}
 void getColourDetectorValue() {
   colourDetectorValue = digitalRead(COLOUR_DETECTOR);
 }
@@ -45,6 +53,7 @@ void indicateCorrectDropOffPoint() {
 void cycle_amber_led() {
   // The robot must display a flashing amber light (2Hz±10%) when and only when it is moving.
   // if (robot is moving) output HIGH to AMBER_LED (NE555P Precision Timer should handle oscillation / flashing)
+  // SHOULD CHECK IF LED ALREADY HIGH IN ORDER TO REDUCE UNNECESSARY TRAFFIC BY REPEATEDLY SENDING HIGH SIGNAL TO AMBER LED WHILE MOVING
   // if (robot not moving) stop output to AMBER_LED (digitalWrite LOW) until robot moves again
 
   /*

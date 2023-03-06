@@ -30,6 +30,7 @@ extern int leftTurnValue;
 extern int leftLineValue;
 extern int rightLineValue;
 extern int rightTurnValue;
+extern int turnNo;
 
 //enumerate robot states
 enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT};
@@ -57,6 +58,8 @@ void getLineFollowerValues();
 void followLine();
 void startSequence();
 void collectBlockSequence();
+void placeBlockSequence();
+void checkTurns();
 //colour detection
 void initialiseAllLEDs();
 void getColourDetectorValue();

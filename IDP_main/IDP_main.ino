@@ -5,6 +5,7 @@ OverallState overallState = START_SEQUENCE;
 DrivingState drivingState = NOT_MOVING;
 BlockCollectionState blockCollectionState = DISENGAGED;
 BlockColour blockColour = UNKNOWN;
+int turnNo = 0;
 
 void setup() {
   Serial.begin(9600); // set up Serial library
@@ -60,6 +61,7 @@ void loop() {
       digitalWrite(GREEN_LED, LOW);
       break;
     case BLOCK_PLACEMENT:
+      placeBlockSequence();
       break;
     case ERROR:
       break;

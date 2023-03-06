@@ -14,6 +14,7 @@ int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
 int rotationDelay = 3000;
+bool atJunction = false; //flag to test whether the robot is currently going over a line  
 
 void lookForMotorShield() {
     if (!AFMS.begin()) {
@@ -83,6 +84,7 @@ void setLineFollowerPinout() {
   pinMode(TURN_DETECTOR_LEFT, INPUT);
   pinMode(TURN_DETECTOR_RIGHT, INPUT);
 }
+
 void getLineFollowerValues() {
     leftLineValue = digitalRead(LINE_FOLLOWER_LEFT);
     rightLineValue = digitalRead(LINE_FOLLOWER_RIGHT);
@@ -105,6 +107,23 @@ void followLine() {
     overallState = ERROR
     errorRecoverySequence();*/
   }
+
+  //check for the presence of turns
+  checkTurns();
+  
+}
+
+void checkTurns(){
+  bool turnDetected = rightTurnValue || leftTurnValue;
+  if(atJunction == false && turnDetected == true){//check if the robot has driven onto a turn
+    atJunction = true;//set flag to true
+    turnNo = (turnNo+1)%3;
+  }
+
+  if(atJunction == true && turnDetected == false){//robot has gone off a line 
+    atJunction = false;//set flag to false
+  }
+
 }
 
 
@@ -178,5 +197,46 @@ void collectBlockSequence(){
   delay(stepDelay);
 
   //block collection finished, return to line following
+  overallState = LINE_FOLLOWING;
+}
+
+void placeBlockSequence(){
+  overallState = BLOCK_PLACEMENT;
+  setMotorSpeeds(255);
+  //drive forward to align wheel with line
+  driveForward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //turn 90 degrees
+  turnLeftReversing();
+  delay(rotationDelay);
+  releaseMotors();
+  delay(stepDelay);
+
+  //move forward
+  driveForward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //release block
+  releaseMotors();
+  delay(1000);
+
+  //drive backward
+  driveBackward();
+  delay(400);
+  releaseMotors();
+  delay(stepDelay);
+
+  //rotate 90 degrees
+  turnRight();
+  delay(rotationDelay);
+  releaseMotors();
+  delay(stepDelay);
+
+  //continue
   overallState = LINE_FOLLOWING;
 }

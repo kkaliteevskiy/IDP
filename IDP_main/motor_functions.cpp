@@ -129,7 +129,22 @@ void checkTurns(){
 
 
 void errorRecoverySequence() {
-
+  /*
+  drive forward for x seconds (long enough to theoretically clear the ramp)
+  keep checking line sensors regularly, if one returns then break out of delay and start line following again as normal
+  after x seconds, if line following sensors still return 0, assume we are off the line
+  keep driving and checking turn detectors, when one returns a 1 we know which way we went wrong
+  */
+  /*float timeToClearRamp = 3;
+  driveForward();
+  for (int i = 0; i < 300; i++) {
+    getLineFollowerValues();
+    if (leftLineValue == 1 || rightLineValue == 1) {
+      return; // break out of function and start following line again
+    }
+    delay(10);
+  }*/
+  // line sensors still return 0, assume we are off the line
 }
 
 void startSequence() {

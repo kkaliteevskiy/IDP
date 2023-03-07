@@ -7,7 +7,7 @@ Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
 // some constants
-int runSpeed = 255;
+int runSpeed = 120;
 int leftTurnValue = 0;
 int leftLineValue = 0;
 int rightLineValue = 0;
@@ -17,11 +17,11 @@ int rotationDelay = 3000;
 bool atJunction = false; //flag to test whether the robot is currently going over a line  
 
 void lookForMotorShield() {
-    if (!AFMS.begin()) {
-        Serial.println("Warning: Could not find Motor Shield. Check wiring.");
-        while (1);
-    }
-    Serial.println("Motor Shield found.");
+  if (!AFMS.begin()) {
+      Serial.println("Warning: Could not find Motor Shield. Check wiring.");
+      while (1);
+  }
+  Serial.println("Motor Shield found.");
 }
 void setMotorSpeeds(int speed) {
     // range is from 0 (min) to 255 (max)
@@ -32,6 +32,7 @@ void releaseMotors() {
   if (drivingState != NOT_MOVING) {
     leftMotor->run(RELEASE);
     rightMotor->run(RELEASE);
+    digitalWrite(AMBER_LED, LOW);
     drivingState = NOT_MOVING;
   }
 }
@@ -39,6 +40,7 @@ void driveForward() {
   if (drivingState != MOVING_FORWARD) {
     leftMotor->run(FORWARD);
     rightMotor->run(FORWARD);
+    digitalWrite(AMBER_LED, HIGH);
     drivingState = MOVING_FORWARD;
   }
 }
@@ -46,6 +48,7 @@ void driveBackward() {
   if (drivingState != MOVING_BACKWARD) {
     leftMotor->run(BACKWARD);
     rightMotor->run(BACKWARD);
+    digitalWrite(AMBER_LED, HIGH);
     drivingState = MOVING_BACKWARD;
   }
 }
@@ -53,6 +56,7 @@ void turnLeft() {
   if (drivingState != TURNING_LEFT) {
     leftMotor->run(RELEASE);
     rightMotor->run(FORWARD);
+    digitalWrite(AMBER_LED, HIGH);
     drivingState = TURNING_LEFT;
   }
 }
@@ -60,6 +64,7 @@ void turnRight() {
   if (drivingState != TURNING_RIGHT) {
     leftMotor->run(FORWARD);
     rightMotor->run(RELEASE);
+    digitalWrite(AMBER_LED, HIGH);
     drivingState = TURNING_RIGHT;
   }
 }
@@ -67,6 +72,7 @@ void turnLeftReversing() {
   if (drivingState != TURNING_LEFT_REVERSING) {
     leftMotor->run(BACKWARD);
     rightMotor->run(RELEASE);
+    digitalWrite(AMBER_LED, HIGH);
     drivingState = TURNING_LEFT_REVERSING;
   }
 }
@@ -74,6 +80,7 @@ void turnRightReversing() {
   if (drivingState != TURNING_RIGHT_REVERSING) {
     leftMotor->run(RELEASE);
     rightMotor->run(BACKWARD);
+    digitalWrite(AMBER_LED, HIGH);
   drivingState = TURNING_RIGHT_REVERSING;
   }
 }

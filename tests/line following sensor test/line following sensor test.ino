@@ -6,10 +6,10 @@ Test for line following sensors
 int delayTime = 200;
 
 // initialise IR sensor pin locations for line following
-int lineFollowerLeft = 1;
-int lineFollowerRight = 2;
+int lineFollowerLeft = 4;
+int lineFollowerRight = 5;
 int turnDetectorLeft = 3;
-int turnDetectorRight = 4;
+int turnDetectorRight = 6;
 int lineFollowerValues[4];
 
 void setup() {

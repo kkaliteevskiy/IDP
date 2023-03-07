@@ -8,18 +8,19 @@
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 
 // set working pinout - pin locations for inputs/outputs
-#define LINE_FOLLOWER_LEFT 1
-#define LINE_FOLLOWER_RIGHT 2
+#define PUSH_BUTTON_SWITCH 2
 #define TURN_DETECTOR_LEFT 3
-#define TURN_DETECTOR_RIGHT 4
-#define AMBER_LED 5
-#define GREEN_LED 6
-#define RED_LED 7
-#define COLOUR_DETECTOR 8
+#define LINE_FOLLOWER_LEFT 4
+#define LINE_FOLLOWER_RIGHT 5
+#define TURN_DETECTOR_RIGHT 6
+#define GREEN_LED 7
+#define RED_LED 8
 #define SERVO_LEFT 9
 #define SERVO_RIGHT 10
-#define ULTRASONIC_TRIGGER 11
-#define ULTRASONIC_ECHO 12
+#define COLOUR_DETECTOR 11
+#define AMBER_LED 12
+#define ULTRASONIC_TRIGGER 15
+#define ULTRASONIC_ECHO 16
 #define INFRARED_ANALOG_INPUT A0
 
 #define SOUND_SPEED 0.0343

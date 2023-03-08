@@ -7,14 +7,16 @@ Adafruit_DCMotor *leftMotor = AFMS.getMotor(1);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
 // some constants
-int runSpeed = 120;
+int runSpeed = 255;
 int leftTurnValue = 0;
 int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
 int rotationDelay = 2900;
-bool atJunction = false; //flag to test whether the robot is currently going over a line  
+bool atJunction = false; //flag to test whether the robot is currently going over a line
+int turnNo = 0;
+int currentSpeed = 0;
 
 void lookForMotorShield() {
   if (!AFMS.begin()) {
@@ -25,8 +27,11 @@ void lookForMotorShield() {
 }
 void setMotorSpeeds(int speed) {
     // range is from 0 (min) to 255 (max)
-    leftMotor->setSpeed(speed);
-    rightMotor->setSpeed(speed);
+    if (speed != currentSpeed) {
+      leftMotor->setSpeed(speed);
+      rightMotor->setSpeed(speed);
+      currentSpeed = speed;
+    }
 }
 void releaseMotors() {
   if (drivingState != NOT_MOVING) {
@@ -84,14 +89,12 @@ void turnRightReversing() {
   drivingState = TURNING_RIGHT_REVERSING;
   }
 }
-
 void setLineFollowerPinout() {
   pinMode(LINE_FOLLOWER_LEFT, INPUT);
   pinMode(LINE_FOLLOWER_RIGHT, INPUT);
   pinMode(TURN_DETECTOR_LEFT, INPUT);
   pinMode(TURN_DETECTOR_RIGHT, INPUT);
 }
-
 void getLineFollowerValues() {
     leftLineValue = digitalRead(LINE_FOLLOWER_LEFT);
     rightLineValue = digitalRead(LINE_FOLLOWER_RIGHT);
@@ -100,6 +103,7 @@ void getLineFollowerValues() {
 }
 void followLine() {
   if (leftLineValue == 1 && rightLineValue == 1) {
+    setMotorSpeeds(runSpeed);
     driveForward();
   }
   else if (leftLineValue == 1 && rightLineValue == 0) {
@@ -179,7 +183,7 @@ void startSequence() {
     // driveForward() doesn't need to be called again
     getLineFollowerValues();
   }
-  setMotorSpeeds(runSpeed);
+  setMotorSpeeds(120);
   // now the robot has reached the second white line - time to start line following
   // only checking for leftLineValue == 0 so that line following does not try a right turn when left sensor hits line first
 
@@ -187,8 +191,7 @@ void startSequence() {
   overallState = LINE_FOLLOWING;
 }
 
-
-void collectBlockSequence(){
+void startBlockCollection(){
   //hardcoded function to collect the block
   overallState = BLOCK_COLLECTION;
 
@@ -211,11 +214,8 @@ void collectBlockSequence(){
   delay(400);
   releaseMotors();
   delay(stepDelay);
-
-  //close the capture mechanism
-  releaseMotors();
-  delay(1000);
-
+}
+void finishBlockCollection() {
   //reverse back to the line
   driveBackward();
   delay(400);
@@ -234,7 +234,7 @@ void collectBlockSequence(){
   overallState = LINE_FOLLOWING;
 }
 
-void placeBlockSequence(){
+void startBlockPlacement(){
   overallState = BLOCK_PLACEMENT;
   setMotorSpeeds(255);
   //drive forward to align wheel with line
@@ -254,11 +254,8 @@ void placeBlockSequence(){
   delay(400);
   releaseMotors();
   delay(stepDelay);
-
-  //release block
-  releaseMotors();
-  delay(1000);
-
+}
+void finishBlockPlacement() {
   //drive backward
   driveBackward();
   delay(400);
@@ -272,5 +269,6 @@ void placeBlockSequence(){
   delay(stepDelay);
 
   //continue
+  setMotorSpeeds(runSpeed);
   overallState = LINE_FOLLOWING;
 }

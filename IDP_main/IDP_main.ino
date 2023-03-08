@@ -5,10 +5,8 @@ OverallState overallState = IDLE;
 DrivingState drivingState = NOT_MOVING;
 BlockCollectionState blockCollectionState = DISENGAGED;
 BlockColour blockColour = UNKNOWN;
-int turnNo = 0;
 
 void setup() {
-  setServos();
   Serial.begin(9600); // set up Serial library
 
   //setup Motors
@@ -17,6 +15,7 @@ void setup() {
   releaseMotors();
   
   // set other inputs/outputs
+  setServos();
   setLineFollowerPinout();
   initialiseAllLEDs();
   
@@ -39,23 +38,27 @@ void loop() {
     case LINE_FOLLOWING:
       getLineFollowerValues();
       followLine();
-      //if (isBlockPresent()) {
-      //  overallState = BLOCK_COLLECTION;
-      //}
-      //else if (blockCollectionState = COLLECTED && deliveryZoneReached()) {
-      //  overallState = BLOCK_PLACEMENT
-      //}
-
       break;
     case BLOCK_COLLECTION:
       //hardcode the robot to align with the block and TRY to return to the line 
-      Serial.println("block collection");
-      collectBlockSequence();
+      startBlockCollection();
+      captureBlock(); // close the capture mechanism
+      delay(1000);
+      finishBlockCollection();
       break;
     case BLOCK_PLACEMENT:
-      placeBlockSequence();
+      startBlockPlacement();
+      releaseBlock(); // open the capture mechanism
+      delay(1000);
+      finishBlockPlacement();
       break;
     case ERROR:
+      // flash error signal
+      digitalWrite(GREEN_LED, HIGH);
+      digitalWrite(RED_LED, HIGH);
+      delay(500);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(RED_LED, LOW);
       break;
     default:
       // error?

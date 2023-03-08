@@ -3,7 +3,7 @@
 Servo Servo_L;
 Servo Servo_R;
 int start_angle = 180;
-int close_angle = 120;//corresponds to 90 degrees irl
+int close_angle = 100;
 
 void setServos(){
   Servo_L.attach(SERVO_LEFT);

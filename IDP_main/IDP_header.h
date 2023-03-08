@@ -9,10 +9,10 @@
 
 // set working pinout - pin locations for inputs/outputs
 #define PUSH_BUTTON_SWITCH 2
-#define TURN_DETECTOR_LEFT 3
-#define LINE_FOLLOWER_LEFT 4
-#define LINE_FOLLOWER_RIGHT 5
-#define TURN_DETECTOR_RIGHT 6
+#define TURN_DETECTOR_RIGHT 3
+#define TURN_DETECTOR_LEFT 4
+#define LINE_FOLLOWER_LEFT 5
+#define LINE_FOLLOWER_RIGHT 6
 #define GREEN_LED 7
 #define RED_LED 8
 #define SERVO_LEFT 9
@@ -32,6 +32,7 @@ extern int leftLineValue;
 extern int rightLineValue;
 extern int rightTurnValue;
 extern int turnNo;
+extern int currentSpeed;
 
 //enumerate robot states
 enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT};
@@ -58,8 +59,10 @@ void setLineFollowerPinout();
 void getLineFollowerValues();
 void followLine();
 void startSequence();
-void collectBlockSequence();
-void placeBlockSequence();
+void startBlockCollection();
+void finishBlockCollection();
+void startBlockPlacement();
+void finishBlockPlacement();
 void checkTurns();
 //colour detection
 void initialiseAllLEDs();

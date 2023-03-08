@@ -13,7 +13,7 @@ int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
-int rotationDelay = 3000;
+int rotationDelay = 2900;
 bool atJunction = false; //flag to test whether the robot is currently going over a line  
 
 void lookForMotorShield() {
@@ -121,10 +121,18 @@ void followLine() {
 }
 
 void checkTurns(){
-  bool turnDetected = rightTurnValue || leftTurnValue;
+  bool turnDetected = rightTurnValue;
   if(atJunction == false && turnDetected == true){//check if the robot has driven onto a turn
     atJunction = true;//set flag to true
-    turnNo = (turnNo+1)%3;
+    turnNo = (turnNo+1)%2;
+    Serial.print("Turn number: ");
+    Serial.println(turnNo);
+    if(turnNo == 1){
+      overallState = BLOCK_COLLECTION;
+    }
+    else{
+      overallState = BLOCK_PLACEMENT;
+    }
   }
 
   if(atJunction == true && turnDetected == false){//robot has gone off a line 
@@ -193,7 +201,7 @@ void collectBlockSequence(){
   delay(stepDelay);
 
   //rotate 90 degrees
-  turnLeftReversing();
+  turnRightReversing();
   delay(rotationDelay);
   releaseMotors();
   delay(stepDelay);
@@ -220,6 +228,8 @@ void collectBlockSequence(){
   releaseMotors();
   delay(stepDelay);
 
+
+  setMotorSpeeds(runSpeed);
   //block collection finished, return to line following
   overallState = LINE_FOLLOWING;
 }
@@ -234,7 +244,7 @@ void placeBlockSequence(){
   delay(stepDelay);
 
   //turn 90 degrees
-  turnLeftReversing();
+  turnRightReversing();
   delay(rotationDelay);
   releaseMotors();
   delay(stepDelay);

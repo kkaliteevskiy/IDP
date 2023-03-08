@@ -8,6 +8,7 @@ BlockColour blockColour = UNKNOWN;
 int turnNo = 0;
 
 void setup() {
+  setServos();
   Serial.begin(9600); // set up Serial library
 
   //setup Motors
@@ -18,7 +19,7 @@ void setup() {
   // set other inputs/outputs
   setLineFollowerPinout();
   initialiseAllLEDs();
-  setServos();
+  
   //setUltrasonicSensorPinout();
   //initInfraredSensor();
 

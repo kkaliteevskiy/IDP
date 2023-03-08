@@ -155,7 +155,6 @@ void errorRecoverySequence() {
 }
 
 void startSequence() {
-  //perhaps it needs to simply drive forwards for a second or two to get out of the start base
   do {
     driveForward();
     getLineFollowerValues();
@@ -166,12 +165,15 @@ void startSequence() {
     getLineFollowerValues();
   } while (leftLineValue == 1 || rightLineValue == 1);
   // now the robot has entirely crossed the first line
-  do {
+  rightMotor->setSpeed(160);
+  leftMotor->setSpeed(80);
+  while (leftLineValue == 0) {
     // driveForward() doesn't need to be called again
     getLineFollowerValues();
-  } while (rightLineValue == 0);
+  }
+  setMotorSpeeds(runSpeed);
   // now the robot has reached the second white line - time to start line following
-  // only checking for rightLineValue == 0 so that line following does not try a left turn when left sensor hits line first
+  // only checking for leftLineValue == 0 so that line following does not try a right turn when left sensor hits line first
 
   // start sequence finished, begin line following
   overallState = LINE_FOLLOWING;

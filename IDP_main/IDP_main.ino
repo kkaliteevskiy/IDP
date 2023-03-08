@@ -33,19 +33,11 @@ void loop() {
       // do nothing, wait for start sequence to be triggered by button
       break;
     case START_SEQUENCE:
-      //startSequence();
-
-      // proxy start sequence - temporary while line followers not attached
-      Serial.println("start sequence");
-      digitalWrite(GREEN_LED, HIGH);
-      delay(1000);
-      digitalWrite(GREEN_LED, LOW);
-      overallState = LINE_FOLLOWING;
-
+      startSequence();
       break;
     case LINE_FOLLOWING:
       getLineFollowerValues();
-      //followLine();
+      followLine();
       //if (isBlockPresent()) {
       //  overallState = BLOCK_COLLECTION;
       //}

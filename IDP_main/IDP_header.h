@@ -58,6 +58,7 @@ void turnRightReversing();
 void setLineFollowerPinout();
 void getLineFollowerValues();
 void followLine();
+void errorRecoverySequence();
 void startSequence();
 void startBlockCollection();
 void finishBlockCollection();

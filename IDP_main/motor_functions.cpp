@@ -113,10 +113,8 @@ void followLine() {
     turnRight();
   }
   else if (leftLineValue == 0 && rightLineValue == 0) {
-    releaseMotors(); // temporary fix
-    /* need some kind of flag to trigger error recovery. eg:
-    overallState = ERROR
-    errorRecoverySequence();*/
+    //errorRecoverySequence();
+    driveForward();
   }
 
   //check for the presence of turns
@@ -154,16 +152,20 @@ void errorRecoverySequence() {
   after x seconds, if line following sensors still return 0, assume we are off the line
   keep driving and checking turn detectors, when one returns a 1 we know which way we went wrong
   */
-  /*float timeToClearRamp = 3;
-  driveForward();
+  /*driveForward();
   for (int i = 0; i < 300; i++) {
     getLineFollowerValues();
     if (leftLineValue == 1 || rightLineValue == 1) {
       return; // break out of function and start following line again
     }
     delay(10);
-  }*/
+  }
+  if (flag == false) {
   // line sensors still return 0, assume we are off the line
+  releaseMotors();
+  flag = true;
+  overallState = ERROR; // TODO - FIX
+  }*/
 }
 
 void startSequence() {

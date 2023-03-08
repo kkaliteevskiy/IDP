@@ -54,11 +54,9 @@ void loop() {
       break;
     case ERROR:
       // flash error signal
-      digitalWrite(GREEN_LED, HIGH);
-      digitalWrite(RED_LED, HIGH);
-      delay(500);
-      digitalWrite(GREEN_LED, LOW);
-      digitalWrite(RED_LED, LOW);
+      if (leftLineValue == 1 || rightLineValue == 1) {
+        overallState = LINE_FOLLOWING; // resume as normal
+      }
       break;
     default:
       // error?

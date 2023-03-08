@@ -13,7 +13,7 @@ int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
-int rotationDelay = 2900;
+int rotationDelay = 3000;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
 int currentSpeed = 0;
@@ -179,6 +179,7 @@ void startSequence() {
     getLineFollowerValues();
   } while (leftLineValue == 1 || rightLineValue == 1);
   // now the robot has entirely crossed the first line
+  delay(500);
   rightMotor->setSpeed(160);
   leftMotor->setSpeed(80);
   while (leftLineValue == 0) {
@@ -197,11 +198,12 @@ void startBlockCollection(){
   //hardcoded function to collect the block
   overallState = BLOCK_COLLECTION;
 
+  delay(1000);//romove in final version
   setMotorSpeeds(255); //decrease motor speed for greater control
   
   //move forward to the position where the robot will turn
   driveForward();
-  delay(400);
+  delay(1400);//adapt this in future version
   releaseMotors();
   delay(stepDelay);
 
@@ -230,7 +232,6 @@ void finishBlockCollection() {
   releaseMotors();
   delay(stepDelay);
 
-
   setMotorSpeeds(runSpeed);
   //block collection finished, return to line following
   overallState = LINE_FOLLOWING;
@@ -241,7 +242,7 @@ void startBlockPlacement(){
   setMotorSpeeds(255);
   //drive forward to align wheel with line
   driveForward();
-  delay(400);
+  delay(1000);
   releaseMotors();
   delay(stepDelay);
 

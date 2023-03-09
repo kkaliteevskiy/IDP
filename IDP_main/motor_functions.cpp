@@ -13,7 +13,7 @@ int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
-int rotationDelay = 3000;
+int rotationDelay = 2850;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
 int currentSpeed = 0;
@@ -114,7 +114,7 @@ void followLine() {
   }
   else if (leftLineValue == 0 && rightLineValue == 0) {
     //errorRecoverySequence();
-    driveForward();
+    turnRight();
   }
 
   //check for the presence of turns
@@ -179,7 +179,6 @@ void startSequence() {
     getLineFollowerValues();
   } while (leftLineValue == 1 || rightLineValue == 1);
   // now the robot has entirely crossed the first line
-  delay(500);
   rightMotor->setSpeed(160);
   leftMotor->setSpeed(80);
   while (leftLineValue == 0) {
@@ -198,12 +197,11 @@ void startBlockCollection(){
   //hardcoded function to collect the block
   overallState = BLOCK_COLLECTION;
 
-  delay(1000);//romove in final version
   setMotorSpeeds(255); //decrease motor speed for greater control
   
   //move forward to the position where the robot will turn
   driveForward();
-  delay(1400);//adapt this in future version
+  delay(1650);//adapt this in future version
   releaseMotors();
   delay(stepDelay);
 
@@ -215,14 +213,14 @@ void startBlockCollection(){
 
   //move forward towards the block
   driveForward();
-  delay(400);
+  delay(1200);
   releaseMotors();
   delay(stepDelay);
 }
 void finishBlockCollection() {
   //reverse back to the line
   driveBackward();
-  delay(400);
+  delay(1200);
   releaseMotors();
   delay(stepDelay);
 
@@ -242,7 +240,7 @@ void startBlockPlacement(){
   setMotorSpeeds(255);
   //drive forward to align wheel with line
   driveForward();
-  delay(1000);
+  delay(1650);
   releaseMotors();
   delay(stepDelay);
 
@@ -254,20 +252,20 @@ void startBlockPlacement(){
 
   //move forward
   driveForward();
-  delay(400);
+  delay(1500);
   releaseMotors();
   delay(stepDelay);
 }
 void finishBlockPlacement() {
   //drive backward
   driveBackward();
-  delay(400);
+  delay(1500);
   releaseMotors();
   delay(stepDelay);
 
   //rotate 90 degrees
   turnRight();
-  delay(rotationDelay);
+  delay(rotationDelay - 300);
   releaseMotors();
   delay(stepDelay);
 

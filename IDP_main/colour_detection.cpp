@@ -3,6 +3,10 @@
 // some constants
 int colourDetectorValue = 0;
 
+void setColourDetectorPinout() {
+  pinMode(COLOUR_DETECTOR_READING, INPUT);
+  pinMode(COLOUR_DETECTOR_POWER, OUTPUT);
+}
 void initialiseAllLEDs() {
   pinMode(AMBER_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
@@ -12,7 +16,7 @@ void initialiseAllLEDs() {
   digitalWrite(RED_LED, LOW);
 }
 void getColourDetectorValue() {
-  colourDetectorValue = digitalRead(COLOUR_DETECTOR);
+  colourDetectorValue = digitalRead(COLOUR_DETECTOR_READING);
 }
 bool colourIsBlue() {
   return colourDetectorValue == 1;
@@ -20,15 +24,18 @@ bool colourIsBlue() {
 void detectColour() {
   // this function assumes the block is within sensing range of the robot
   // keep reading colour detector up to a limited number of times - if no positive output is detected, assume block colour was brown
+  digitalWrite(COLOUR_DETECTOR_POWER, HIGH); // power the colour detection circuit
+  delay(500);
   blockColour = BROWN;
   for (int i = 0; i < 1000; i++) {
     getColourDetectorValue();
+    delay(5); // sets overall limit to 5 seconds
     if (colourIsBlue()) {
       blockColour = BLUE;
       break;
     }
-    delay(5); // sets overall limit to 5 seconds
   }  
+  digitalWrite(COLOUR_DETECTOR_POWER, LOW); // stop powering the colour detection circuit
 }
 void indicateColourDetected() {
   // stop robot from moving - ensure robot is not moving while relevant LED is lit

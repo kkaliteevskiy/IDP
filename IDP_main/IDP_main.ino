@@ -17,6 +17,7 @@ void setup() {
   // set other inputs/outputs
   setServos();
   setLineFollowerPinout();
+  setColourDetectorPinout();
   initialiseAllLEDs();
   
   //setUltrasonicSensorPinout();
@@ -43,7 +44,8 @@ void loop() {
       //hardcode the robot to align with the block and TRY to return to the line 
       startBlockCollection();
       captureBlock(); // close the capture mechanism
-      delay(1000);
+      detectColour();
+      indicateColourDetected();
       finishBlockCollection();
       break;
     case BLOCK_PLACEMENT:

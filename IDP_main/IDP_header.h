@@ -17,8 +17,9 @@
 #define RED_LED 8
 #define SERVO_LEFT 9
 #define SERVO_RIGHT 10
-#define COLOUR_DETECTOR 11
-#define AMBER_LED 12
+#define AMBER_LED 11
+#define COLOUR_DETECTOR_POWER 12
+#define COLOUR_DETECTOR_READING 13
 #define ULTRASONIC_TRIGGER 15
 #define ULTRASONIC_ECHO 16
 #define INFRARED_ANALOG_INPUT A0
@@ -66,6 +67,7 @@ void startBlockPlacement();
 void finishBlockPlacement();
 void checkTurns();
 //colour detection
+void setColourDetectorPinout();
 void initialiseAllLEDs();
 void getColourDetectorValue();
 bool colourIsBlue();

@@ -73,8 +73,6 @@ void getColourDetectorValue();
 bool colourIsBlue();
 void detectColour();
 void indicateColourDetected();
-void indicateCorrectDropOffPoint();
-void cycle_amber_led();
 //ultrasonic sensor
 void setUltrasonicSensorPinout();
 float takeUltrasonicDistanceReadingAndGetAverage();

@@ -41,7 +41,6 @@ void loop() {
       followLine();
       break;
     case BLOCK_COLLECTION:
-      //hardcode the robot to align with the block and TRY to return to the line 
       startBlockCollection();
       captureBlock(); // close the capture mechanism
       detectColour();
@@ -51,7 +50,7 @@ void loop() {
     case BLOCK_PLACEMENT:
       startBlockPlacement();
       releaseBlock(); // open the capture mechanism
-      delay(1000);
+      delay(500);
       finishBlockPlacement();
       break;
     case ERROR:

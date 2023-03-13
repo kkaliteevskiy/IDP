@@ -59,13 +59,13 @@ void turnRightReversing();
 void setLineFollowerPinout();
 void getLineFollowerValues();
 void followLine();
+void checkTurns();
 void errorRecoverySequence();
 void startSequence();
 void startBlockCollection();
 void finishBlockCollection();
 void startBlockPlacement();
 void finishBlockPlacement();
-void checkTurns();
 //colour detection
 void setColourDetectorPinout();
 void initialiseAllLEDs();
@@ -86,8 +86,8 @@ float getInfraredAnalogReading();
 bool isBlockPresent();
 //servo
 void setServos();
+void writeServos(int angle);
 void captureBlock();
 void releaseBlock();
-void writeServos(int angle);
 
 #endif

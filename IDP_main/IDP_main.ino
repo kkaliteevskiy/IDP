@@ -5,6 +5,7 @@ OverallState overallState = IDLE;
 DrivingState drivingState = NOT_MOVING;
 BlockCollectionState blockCollectionState = DISENGAGED;
 BlockColour blockColour = UNKNOWN;
+bool firstBlock = true;
 
 void setup() {
   Serial.begin(9600); // set up Serial library
@@ -43,8 +44,15 @@ void loop() {
     case BLOCK_COLLECTION:
       startBlockCollection();
       captureBlock(); // close the capture mechanism
-      detectColour();
-      indicateColourDetected();
+      if (firstBlock) {
+        detectColour();
+        indicateColourDetected();
+        firstBlock = false;
+      }
+      else {
+        blockColour = BLUE;
+        delay(500); // allow grabbing mechanism time to close
+      }
       finishBlockCollection();
       break;
     case BLOCK_PLACEMENT:

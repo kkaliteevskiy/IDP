@@ -1,3 +1,6 @@
+/*
+Module for functions relating to motor control, including robot movement and line following
+*/
 #include "IDP_header.h"
 
 // Create the motor shield object with the default I2C address
@@ -129,14 +132,19 @@ void checkTurns(){
   bool turnDetected = rightTurnValue;
   if(atJunction == false && turnDetected == true){//check if the robot has driven onto a turn
     atJunction = true;//set flag to true
-    turnNo = (turnNo+1)%2;
+    turnNo++; // increment turn counter
     Serial.print("Turn number: ");
     Serial.println(turnNo);
     if(turnNo == 1 && overallState != END_SEQUENCE){
       overallState = BLOCK_COLLECTION;
     }
-    else if(overallState != END_SEQUENCE){
+    else if ((turnNo == 2 && blockColour == BLUE) || (turnNo == 4 && blockColour == BROWN)) {
+      // robot has reached the turn corresponding to the relevant delivery zone
       overallState = BLOCK_PLACEMENT;
+      turnNo = 0; // reset turn counter
+    }
+    else {
+      // do nothing
     }
   }
 
@@ -191,7 +199,7 @@ void startSequence() {
   }
   setMotorSpeeds(120);
   // now the robot has reached the second white line - time to start line following
-  // only checking for leftLineValue == 0 so that line following does not try a right turn when left sensor hits line first
+  // only checking for leftLineValue == 0 so that line following does not try a right turn when right sensor hits line first
 
   // start sequence finished, begin line following
   overallState = LINE_FOLLOWING;

@@ -60,13 +60,13 @@ void turnRightReversing();
 void setLineFollowerPinout();
 void getLineFollowerValues();
 void followLine();
+void checkTurns();
 void errorRecoverySequence();
 void startSequence();
 void startBlockCollection();
 void finishBlockCollection();
 void startBlockPlacement();
 void finishBlockPlacement();
-void checkTurns();
 void endSequence();
 //colour detection
 void setColourDetectorPinout();
@@ -75,8 +75,6 @@ void getColourDetectorValue();
 bool colourIsBlue();
 void detectColour();
 void indicateColourDetected();
-void indicateCorrectDropOffPoint();
-void cycle_amber_led();
 //ultrasonic sensor
 void setUltrasonicSensorPinout();
 float takeUltrasonicDistanceReadingAndGetAverage();
@@ -90,8 +88,8 @@ float getInfraredAnalogReading();
 bool isBlockPresent();
 //servo
 void setServos();
+void writeServos(int angle);
 void captureBlock();
 void releaseBlock();
-void writeServos(int angle);
 
 #endif

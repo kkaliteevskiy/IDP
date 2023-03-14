@@ -31,9 +31,9 @@ void detectColour() {
   digitalWrite(COLOUR_DETECTOR_POWER, HIGH); // power the colour detection circuit
   delay(500);
   blockColour = BROWN;
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 500; i++) {
     getColourDetectorValue();
-    delay(5); // sets overall limit to 5 seconds
+    delay(5); // sets overall limit to 2.5 seconds
     if (colourIsBlue()) {
       blockColour = BLUE;
       break;

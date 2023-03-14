@@ -16,7 +16,7 @@ int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 500;
-int rotationDelay = 2850;
+int rotationDelay = 2650;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
 int currentSpeed = 0;
@@ -251,9 +251,9 @@ void finishBlockPlacement() {
   //continue
   setMotorSpeeds(runSpeed);
   
-  if(noBlocksDelivered == 1){//if the final block is delivered, go into the end sequence
+  if (noBlocksDelivered == 3) { //if the final block is delivered, go into the end sequence
     turnLeft();
-    delay(rotationDelay + 300);
+    delay(rotationDelay + 600);
     overallState = END_SEQUENCE;
   }
   else{//else continue collecting blocks
@@ -282,7 +282,7 @@ void endSequence(){
   releaseMotors();
   delay(stepDelay);
   driveForward();
-  delay(2500);//delay to get to the final position
+  delay(2600);//delay to get to the final position
   releaseMotors();
   overallState = IDLE;
 }

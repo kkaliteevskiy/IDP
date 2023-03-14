@@ -51,7 +51,9 @@ void loop() {
       }
       else {
         blockColour = BLUE;
+        digitalWrite(GREEN_LED, HIGH); // not using indicateColourDetected() here because no need for full 5 second delay
         delay(500); // allow grabbing mechanism time to close
+        digitalWrite(GREEN_LED, LOW);
       }
       finishBlockCollection();
       break;
@@ -63,6 +65,7 @@ void loop() {
       break;
     case END_SEQUENCE:
       endSequence();
+      break;
     case ERROR:
       // flash error signal
       if (leftLineValue == 1 || rightLineValue == 1) {

@@ -35,8 +35,9 @@ extern int rightTurnValue;
 extern int turnNo;
 extern int currentSpeed;
 
+
 //enumerate robot states
-enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT};
+enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION, BLOCK_PLACEMENT, END_SEQUENCE};
 extern OverallState overallState;
 enum DrivingState {MOVING_FORWARD, TURNING_RIGHT, TURNING_LEFT, MOVING_BACKWARD, NOT_MOVING, TURNING_LEFT_REVERSING, TURNING_RIGHT_REVERSING};
 extern DrivingState drivingState;
@@ -66,6 +67,7 @@ void finishBlockCollection();
 void startBlockPlacement();
 void finishBlockPlacement();
 void checkTurns();
+void endSequence();
 //colour detection
 void setColourDetectorPinout();
 void initialiseAllLEDs();

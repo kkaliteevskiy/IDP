@@ -17,6 +17,7 @@ int rotationDelay = 2850;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
 int currentSpeed = 0;
+int noBlocksDelivered = 0;
 
 void lookForMotorShield() {
   if (!AFMS.begin()) {
@@ -118,7 +119,9 @@ void followLine() {
   }
 
   //check for the presence of turns
-  checkTurns();
+  if(overallState != END_SEQUENCE){
+    checkTurns();
+  }
   
 }
 
@@ -129,10 +132,10 @@ void checkTurns(){
     turnNo = (turnNo+1)%2;
     Serial.print("Turn number: ");
     Serial.println(turnNo);
-    if(turnNo == 1){
+    if(turnNo == 1 && overallState != END_SEQUENCE){
       overallState = BLOCK_COLLECTION;
     }
-    else{
+    else if(overallState != END_SEQUENCE){
       overallState = BLOCK_PLACEMENT;
     }
   }
@@ -169,6 +172,7 @@ void errorRecoverySequence() {
 }
 
 void startSequence() {
+  Serial.println("in end function");
   do {
     driveForward();
     getLineFollowerValues();
@@ -263,13 +267,44 @@ void finishBlockPlacement() {
   releaseMotors();
   delay(stepDelay);
 
-  //rotate 90 degrees
-  turnRight();
-  delay(rotationDelay - 300);
-  releaseMotors();
-  delay(stepDelay);
+  noBlocksDelivered += 1;
 
   //continue
   setMotorSpeeds(runSpeed);
-  overallState = LINE_FOLLOWING;
+  
+  if(noBlocksDelivered == 0){//if the final block is delivered, go into the end sequence
+    turnLeft();
+    delay(rotationDelay + 300);
+    getLineFollowerValues();
+    overallState = END_SEQUENCE;
+  }
+  else{//else continue collecting blocks
+    //rotate 90 degrees
+    turnRight();
+    delay(rotationDelay - 300);
+    releaseMotors();
+    delay(stepDelay);
+    overallState = LINE_FOLLOWING;        
+  }
+}
+
+void endSequence(){
+  
+  do{ //follow the line while a turn is not detected
+    followLine();
+    getLineFollowerValues();
+  }while(rightTurnValue == 0);
+  
+  driveForward();
+  delay(1650);//move forward to align the wheels with the turn 
+  releaseMotors();
+  delay(stepDelay);
+  turnRightReversing();
+  delay(rotationDelay);
+  releaseMotors();
+  delay(stepDelay);
+  driveForward();
+  delay(2500);//delay to get to the final position
+  releaseMotors();
+  overallState = IDLE;
 }

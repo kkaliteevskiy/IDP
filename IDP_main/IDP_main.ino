@@ -29,6 +29,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(overallState);
   switch (overallState) {
     case IDLE:
       // do nothing, wait for start sequence to be triggered by button
@@ -54,6 +55,8 @@ void loop() {
       delay(1000);
       finishBlockPlacement();
       break;
+    case END_SEQUENCE:
+      endSequence();
     case ERROR:
       // flash error signal
       if (leftLineValue == 1 || rightLineValue == 1) {
@@ -67,5 +70,5 @@ void loop() {
 }
 
 void onButtonPress() {
-  overallState = START_SEQUENCE;
+  overallState = END_SEQUENCE;
 }

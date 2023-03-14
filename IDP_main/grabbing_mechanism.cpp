@@ -1,3 +1,6 @@
+/*
+Module for servo functions - grabbing and releasing blocks
+*/
 #include "IDP_header.h"
 
 Servo Servo_L;

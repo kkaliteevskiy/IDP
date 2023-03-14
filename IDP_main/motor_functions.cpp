@@ -130,11 +130,9 @@ void followLine() {
 
 void checkTurns(){
   bool turnDetected = rightTurnValue;
-  if(atJunction == false && turnDetected == true){//check if the robot has driven onto a turn
-    atJunction = true;//set flag to true
+  if (atJunction == false && turnDetected == true) { //check if the robot has driven onto a turn
+    atJunction = true;
     turnNo++; // increment turn counter
-    Serial.print("Turn number: ");
-    Serial.println(turnNo);
     if(turnNo == 1 && overallState != END_SEQUENCE){
       overallState = BLOCK_COLLECTION;
     }
@@ -149,38 +147,11 @@ void checkTurns(){
   }
 
   if(atJunction == true && turnDetected == false){//robot has gone off a line 
-    atJunction = false;//set flag to false
+    atJunction = false; // reset flag
   }
 
 }
-
-
-
-void errorRecoverySequence() {
-  /*
-  drive forward for x seconds (long enough to theoretically clear the ramp)
-  keep checking line sensors regularly, if one returns then break out of delay and start line following again as normal
-  after x seconds, if line following sensors still return 0, assume we are off the line
-  keep driving and checking turn detectors, when one returns a 1 we know which way we went wrong
-  */
-  /*driveForward();
-  for (int i = 0; i < 300; i++) {
-    getLineFollowerValues();
-    if (leftLineValue == 1 || rightLineValue == 1) {
-      return; // break out of function and start following line again
-    }
-    delay(10);
-  }
-  if (flag == false) {
-  // line sensors still return 0, assume we are off the line
-  releaseMotors();
-  flag = true;
-  overallState = ERROR; // TODO - FIX
-  }*/
-}
-
 void startSequence() {
-  Serial.println("in end function");
   do {
     driveForward();
     getLineFollowerValues();
@@ -280,10 +251,9 @@ void finishBlockPlacement() {
   //continue
   setMotorSpeeds(runSpeed);
   
-  if(noBlocksDelivered == 0){//if the final block is delivered, go into the end sequence
+  if(noBlocksDelivered == 1){//if the final block is delivered, go into the end sequence
     turnLeft();
     delay(rotationDelay + 300);
-    getLineFollowerValues();
     overallState = END_SEQUENCE;
   }
   else{//else continue collecting blocks
@@ -299,8 +269,8 @@ void finishBlockPlacement() {
 void endSequence(){
   
   do{ //follow the line while a turn is not detected
-    followLine();
     getLineFollowerValues();
+    followLine();
   }while(rightTurnValue == 0);
   
   driveForward();

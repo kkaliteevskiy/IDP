@@ -41,8 +41,6 @@ enum OverallState {ERROR, IDLE, START_SEQUENCE, LINE_FOLLOWING, BLOCK_COLLECTION
 extern OverallState overallState;
 enum DrivingState {MOVING_FORWARD, TURNING_RIGHT, TURNING_LEFT, MOVING_BACKWARD, NOT_MOVING, TURNING_LEFT_REVERSING, TURNING_RIGHT_REVERSING};
 extern DrivingState drivingState;
-enum BlockCollectionState {ALIGN_BLOCK, COLOUR_SENSING, GRABBING_BLOCK, DISENGAGED};
-extern BlockCollectionState blockCollectionState;
 enum BlockColour {BROWN, BLUE, UNKNOWN};
 extern BlockColour blockColour;
 
@@ -61,7 +59,6 @@ void setLineFollowerPinout();
 void getLineFollowerValues();
 void followLine();
 void checkTurns();
-void errorRecoverySequence();
 void startSequence();
 void startBlockCollection();
 void finishBlockCollection();

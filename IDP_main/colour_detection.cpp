@@ -1,3 +1,7 @@
+/*
+Module containing functions relating LED control and colour detection
+nb. control of flashing amber LED is handled in motor functions as this is the easiest way to enable the led cycle iff the robot is moving 
+*/
 #include "IDP_header.h"
 
 // some constants
@@ -50,5 +54,4 @@ void indicateColourDetected() {
   digitalWrite(correctLED, HIGH);
   delay(5000);
   digitalWrite(correctLED, LOW);
-  blockCollectionState = DISENGAGED;
 }

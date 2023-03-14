@@ -3,8 +3,8 @@
 // initialise enums
 OverallState overallState = IDLE;
 DrivingState drivingState = NOT_MOVING;
-BlockCollectionState blockCollectionState = DISENGAGED;
 BlockColour blockColour = UNKNOWN;
+
 bool firstBlock = true;
 
 void setup() {
@@ -30,7 +30,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(overallState);
   switch (overallState) {
     case IDLE:
       // do nothing, wait for start sequence to be triggered by button
@@ -77,5 +76,5 @@ void loop() {
 }
 
 void onButtonPress() {
-  overallState = END_SEQUENCE;
+  overallState = START_SEQUENCE;
 }

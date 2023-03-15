@@ -16,7 +16,7 @@ int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
 int stepDelay = 200;
-int rotationDelay = 2650;
+int rotationDelay = 2750;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
 int currentSpeed = 0;
@@ -203,7 +203,7 @@ void startBlockCollection(){
 void finishBlockCollection() {
   //reverse back to the line
   driveBackward();
-  delay(1200);
+  delay(1000);
   releaseMotors();
   delay(stepDelay);
 
@@ -274,7 +274,7 @@ void endSequence(){
   }while(rightTurnValue == 0);
   
   driveForward();
-  delay(1650);//move forward to align the wheels with the turn 
+  delay(1595);//move forward to align the wheels with the turn 
   releaseMotors();
   delay(stepDelay);
   turnRightReversing();

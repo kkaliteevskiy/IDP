@@ -6,7 +6,7 @@ Module for servo functions - grabbing and releasing blocks
 Servo Servo_L;
 Servo Servo_R;
 int start_angle = 180;
-int close_angle = 100;
+int close_angle = 110;
 
 void setServos(){
   Servo_L.attach(SERVO_LEFT);

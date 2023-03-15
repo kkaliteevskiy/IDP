@@ -15,7 +15,7 @@ int leftTurnValue = 0;
 int leftLineValue = 0;
 int rightLineValue = 0;
 int rightTurnValue = 0;
-int stepDelay = 500;
+int stepDelay = 200;
 int rotationDelay = 2650;
 bool atJunction = false; //flag to test whether the robot is currently going over a line
 int turnNo = 0;
@@ -162,8 +162,8 @@ void startSequence() {
     getLineFollowerValues();
   } while (leftLineValue == 1 || rightLineValue == 1);
   // now the robot has entirely crossed the first line
-  rightMotor->setSpeed(160);
-  leftMotor->setSpeed(80);
+  rightMotor->setSpeed(250);
+  leftMotor->setSpeed(125);
   while (leftLineValue == 0) {
     // driveForward() doesn't need to be called again
     getLineFollowerValues();
@@ -190,7 +190,7 @@ void startBlockCollection(){
 
   //rotate 90 degrees
   turnRightReversing();
-  delay(rotationDelay);
+  delay(rotationDelay+100);
   releaseMotors();
   delay(stepDelay);
 

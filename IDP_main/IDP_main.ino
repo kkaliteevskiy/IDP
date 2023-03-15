@@ -5,8 +5,6 @@ OverallState overallState = IDLE;
 DrivingState drivingState = NOT_MOVING;
 BlockColour blockColour = UNKNOWN;
 
-bool firstBlock = true;
-
 void setup() {
   Serial.begin(9600); // set up Serial library
 
@@ -44,17 +42,13 @@ void loop() {
     case BLOCK_COLLECTION:
       startBlockCollection();
       captureBlock(); // close the capture mechanism
-      if (firstBlock) {
-        detectColour();
-        indicateColourDetected();
-        firstBlock = false;
+      if (noBlocksDelivered == 2) { // third (and final) block is currently being collected
+        blockColour = BLUE;
       }
       else {
-        blockColour = BLUE;
-        digitalWrite(GREEN_LED, HIGH); // not using indicateColourDetected() here because no need for full 5 second delay
-        delay(500); // allow grabbing mechanism time to close
-        digitalWrite(GREEN_LED, LOW);
+        detectColour();
       }
+      indicateColourDetected();
       finishBlockCollection();
       break;
     case BLOCK_PLACEMENT:
@@ -66,14 +60,11 @@ void loop() {
     case END_SEQUENCE:
       endSequence();
       break;
-    case ERROR:
-      // flash error signal
+    default:
+      // error?
       if (leftLineValue == 1 || rightLineValue == 1) {
         overallState = LINE_FOLLOWING; // resume as normal
       }
-      break;
-    default:
-      // error?
       break;
   }
 }
